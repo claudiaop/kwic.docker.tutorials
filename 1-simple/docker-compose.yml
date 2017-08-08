@@ -3,18 +3,26 @@ version: '2'
 services:
 
   client:
-    build: 
-       context: ../tcp-client
-    image: kwic_client
+    build: ../tcp-client
     hostname: client
-    command: runTcpClient.sh -c 'example.com:5551'
+    command:  python3 /build/tcpClient.py example.com 5551
+    networks:
+      kwic-net:
 
   server:
-    build:
-      context: ../tcp-server
-    image: kwic_server
+    build: ../tcp-server
     hostname: server 
-    command : runTcpServer.sh -c 'server:5552'
+    command : python3 /build/tcpServer.py server 5552
+    depends_on:
+      - "onprem"
+    networks:
+      kwic-net:
+
+  pumba:
+    image: gaiaadm/pumba
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    command: pumba netem --duration 100m --interface eth1 rate --rate 1500kbit 1simple_onprem_1     
 
 
   example.com:
@@ -36,6 +44,7 @@ services:
     ports:
       - "6661:6661"
       - "8881:8881"
+
     networks:
       kwic-net:
 
