@@ -2,6 +2,21 @@ version: '2'
 
 services:
 
+  client:
+    build: 
+       context: ../tcp-client
+    image: kwic_client
+    hostname: client
+    command: runTcpClient.sh -c 'example.com:5551'
+
+  server:
+    build:
+      context: ../tcp-server
+    image: kwic_server
+    hostname: server 
+    command : runTcpServer.sh -c 'server:5552'
+
+
   example.com:
     image: kaazing/enterprise-gateway:5.7.0
     volumes:
