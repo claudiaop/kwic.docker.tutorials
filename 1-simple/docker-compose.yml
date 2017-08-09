@@ -22,7 +22,7 @@ services:
     image: gaiaadm/pumba
     volumes:
         - /var/run/docker.sock:/var/run/docker.sock
-    command: pumba netem --duration 100m --interface eth1 rate --rate 1500kbit 1simple_onprem_1     
+    command: pumba netem --duration 5m --interface eth0 rate --rate 12000kbit 1simple_onprem_1     
 
 
   example.com:
@@ -48,41 +48,7 @@ services:
     networks:
       kwic-net:
 
-  server-a:
-    image: kaazing/enterprise-gateway:5.7.0
-    environment:
-      GATEWAY_OPTS: "-Dservice-hostname=server-a -Dservice-port=5551"
-    volumes:
-      - ./config/echo-server-config.xml:/kaazing-gateway/conf/gateway-config.xml:ro
-    networks:
-      kwic-net:
-
-  server-b:
-    image: kaazing/enterprise-gateway:5.7.0
-    environment:
-      GATEWAY_OPTS: "-Dservice-hostname=server-b -Dservice-port=6661"
-    volumes:
-      - ./config/echo-server-config.xml:/kaazing-gateway/conf/gateway-config.xml:ro
-    networks:
-      kwic-net:
-
-  server-c:
-    image: kaazing/enterprise-gateway:5.7.0
-    environment:
-      GATEWAY_OPTS: "-Dservice-hostname=server-c -Dservice-port=7771"
-    volumes:
-      - ./config/echo-server-config.xml:/kaazing-gateway/conf/gateway-config.xml:ro
-    networks:
-      kwic-net:
-
-  server-d:
-    image: kaazing/enterprise-gateway:5.7.0
-    environment:
-      GATEWAY_OPTS: "-Dservice-hostname=server-d -Dservice-port=8881"
-    volumes:
-      - ./config/echo-server-config.xml:/kaazing-gateway/conf/gateway-config.xml:ro
-    networks:
-      kwic-net:
+ 
 
 networks:
   kwic-net:
